@@ -15,6 +15,7 @@ import re
 import string
 import emoji
 
+
 # twitter scrape
 def twint_search(search, username=None, since=None, until=None, drop_cols=None, limit=None):
     '''
@@ -38,6 +39,7 @@ def twint_search(search, username=None, since=None, until=None, drop_cols=None, 
     df['date'] = pd.to_datetime(df['date']).dt.date
     return df
 
+
 # looping twitter scrape and creating dataframe
 def search_loop(start_date, end_date, search, filename, username=None, drop_cols=None, limit=None):
     '''
@@ -58,8 +60,9 @@ def search_loop(start_date, end_date, search, filename, username=None, drop_cols
         df = pd.concat([df, day_df])
         del day_df
         df.reset_index(drop=True, inplace=True)
+        print(datetime.now(), f'----- Saving {since}...')
         df.to_csv(f'Datasets/{filename}.csv')
-        print(datetime.now(), f'{since} Saved!')
+        print(datetime.now(), f'----- {since} Saved!')
     return df
 
 
@@ -124,6 +127,7 @@ def load_dict_emoticons():
         ":b": "playful",
         "<3": "love"
         }
+
 
 # self defined contractions
 def load_dict_contractions():
@@ -298,6 +302,7 @@ def load_dict_contractions():
         "sux": "sucks"
         }
 
+
 # Apply text cleaning techniques
 def clean_text(text, stop_words):
     '''Make text lowercase, remove mentions, remove links, convert emoticons/emojis to words, remove punctuation
@@ -347,11 +352,13 @@ def clean_text(text, stop_words):
     
     return text
 
+
 def lda_getter(x):
     '''Turn a list of tuples containing LDA topic weights into a dictionary
        and grab the topic number with the highest weight.'''
     x_dict = dict(x)
     return int(max(x_dict, key=x_dict.get))
+
 
 def mask_pos_finder(text, word):
     '''Find and return the part-of-speech tag for a particular word.'''
