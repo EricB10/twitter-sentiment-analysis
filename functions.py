@@ -1,5 +1,8 @@
 import numpy as np
 import pandas as pd
+
+from datetime import datetime
+
 import twint
 
 # Fixes runtime errors with twint
@@ -50,6 +53,7 @@ def search_loop(start_date, end_date, search, filename, username=None, drop_cols
     '''
     df = pd.DataFrame()
     date_range = pd.Series(pd.date_range(start_date, end_date))
+    print(datetime.now(), '----- Loop Started\n')
     for d in range(len(date_range) - 1):
         since = date_range[d].strftime('%Y-%m-%d')
         until = date_range[d + 1].strftime('%Y-%m-%d')
@@ -62,7 +66,7 @@ def search_loop(start_date, end_date, search, filename, username=None, drop_cols
         df.reset_index(drop=True, inplace=True)
         print(datetime.now(), f'----- Saving {since}...')
         df.to_csv(f'Datasets/{filename}.csv')
-        print(datetime.now(), f'----- {since} Saved!')
+        print(datetime.now(), f'----- {since} Saved!\n')
     return df
 
 
